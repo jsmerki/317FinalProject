@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <Button
+        android:id="@+id/add_course"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Add A Class"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"/>
+
+    <ListView
+        android:id="@+id/courses_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="50dp"
+        app:layout_constraintTop_toBottomOf="@id/add_course"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.9" />
+</androidx.constraintlayout.widget.ConstraintLayout>
