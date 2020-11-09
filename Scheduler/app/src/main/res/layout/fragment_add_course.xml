@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Class Name:"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_name"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <TextView
+        android:id="@+id/text_prof"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Professor:"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_name"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"
+        />
+
+    <EditText
+        android:id="@+id/edit_prof"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_prof"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <TextView
+        android:id="@+id/text_room"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Class Room:"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_prof"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <EditText
+        android:id="@+id/edit_room"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_room"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <TextView
+        android:id="@+id/text_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Class Schedule:"
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_room"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <CheckBox
+        android:id="@+id/check_mon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Monday"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_schedule"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.095"/>
+
+    <CheckBox
+        android:id="@+id/check_tue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Tuesday"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_mon"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.095"/>
+    <CheckBox
+        android:id="@+id/check_wed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Wednesday"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_tue"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.095"/>
+    <CheckBox
+        android:id="@+id/check_thur"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Thursday"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_wed"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.095"/>
+    <CheckBox
+        android:id="@+id/check_fri"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Friday"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/check_thur"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.095"/>
+
+
+    <ExpandableListView
+        android:id="@+id/drop_times"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/check_mon"
+        app:layout_constraintTop_toBottomOf="@id/text_schedule"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.475"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
