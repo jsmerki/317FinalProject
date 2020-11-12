@@ -18,8 +18,6 @@ public class SchedulerViewModel extends ViewModel {
     }
 
     public void addCourse(Course newCourse){
-        System.out.println(newCourse.className + " " + newCourse.professor + " " +
-                " " + newCourse.classroom);
         this.courses.add(newCourse);
     }
 
