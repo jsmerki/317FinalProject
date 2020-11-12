@@ -6,24 +6,20 @@ import java.util.ArrayList;
 //Holds classes, assignments,...
 public class SchedulerViewModel extends ViewModel {
 
-    private ArrayList<Course> courses;
-    private ArrayList<Assignment> assignments;
+    private ArrayList<Course> courses = new ArrayList<Course>();
+    private ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 
     public ArrayList<Course> getCourses(){
-        if (this.courses == null){
-            return new ArrayList<Course>();
-        }
         return courses;
     }
 
     public ArrayList<Assignment> getAssignments(){
-        if (this.assignments == null){
-            return new ArrayList<Assignment>();
-        }
         return assignments;
     }
 
     public void addCourse(Course newCourse){
+        System.out.println(newCourse.className + " " + newCourse.professor + " " +
+                " " + newCourse.classroom);
         this.courses.add(newCourse);
     }
 

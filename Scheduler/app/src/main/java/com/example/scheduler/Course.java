@@ -2,10 +2,10 @@ package com.example.scheduler;
 
 public class Course {
 
-    private String className;
-    private String professor;
-    private String classroom;
-    private int schedule;
+    public String className;
+    public String professor;
+    public String classroom;
+    public int schedule;
 
     public Course(String name, String prof, String room, int sched){
         this.className = name;
