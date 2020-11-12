@@ -37,7 +37,7 @@ public class CourseAdapter extends ArrayAdapter<Course> {
         courseName.setText(course.className);
         courseProf.setText("Professor: " + course.professor);
         courseRoom.setText("Location: " + course.classroom);
-        courseSchedule.setText("Schedule: ");
+        courseSchedule.setText("Schedule: " + course.scheduleStr);
 
         return convertView;
     }
