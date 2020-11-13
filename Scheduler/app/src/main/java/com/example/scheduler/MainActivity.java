@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     public CoursesFragment coursesFrag = new CoursesFragment(this);
     public AddCourseFragment addFrag = new AddCourseFragment(this);
+    public EditCourseFragment editFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,13 @@ public class MainActivity extends AppCompatActivity {
         removeAddCourseTransaction.commit();
     }
 
-    public CoursesFragment getCoursesFragment(){
-        return coursesFrag;
+    public void insertEditCoursesFragment(Course editCourse){
+        editFrag = new EditCourseFragment(this, editCourse);
+
+        FragmentTransaction editCourseTransaction = getSupportFragmentManager().beginTransaction();
+        editCourseTransaction.replace(R.id.fragment_container, editFrag);
+        editCourseTransaction.addToBackStack(null);
+        editCourseTransaction.commit();
     }
 
 }
