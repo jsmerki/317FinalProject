@@ -21,7 +21,7 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/add_assignment_fab"
         android:src="@drawable/plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

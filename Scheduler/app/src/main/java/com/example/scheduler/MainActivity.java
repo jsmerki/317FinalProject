@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
         coursesTransaction.addToBackStack(null);
@@ -50,4 +52,9 @@ public class MainActivity extends AppCompatActivity {
         editCourseTransaction.commit();
     }
 
+    //Save course information to files
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

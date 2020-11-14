@@ -1,6 +1,7 @@
 package com.example.scheduler;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +36,18 @@ public class AddCourseFragment extends Fragment {
 
         //Inflate layout to fit fragContainer View
         View inflatedView = inflater.inflate(R.layout.fragment_add_course, fragContainer, false);
-
+        inflatedView.setBackgroundColor(getResources().getColor(R.color.tintWhite));
+        inflatedView.setBackgroundTintMode(PorterDuff.Mode.LIGHTEN);
         //Add click listener for add class button
         Button register = inflatedView.findViewById(R.id.register_course);
         register.setOnClickListener(new RegisterCourse());
+
+        //Initialize time pickers
+        TimePicker startTime = (TimePicker) inflatedView.findViewById(R.id.picker_start);
+        TimePicker endTime = (TimePicker) inflatedView.findViewById(R.id.picker_end);
+
+        startTime.setHour(12); startTime.setMinute(00);
+        endTime.setHour(12); endTime.setMinute(00);
 
         return inflatedView;
     }
