@@ -8,7 +8,16 @@ import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    final String COURSES_FILE_NAME = "course_info.ser";
 
     public CoursesFragment coursesFrag = new CoursesFragment(this);
     public AddCourseFragment addFrag = new AddCourseFragment(this);
@@ -20,6 +29,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
+        SchedulerViewModel model =
+                ViewModelProviders.of(this).get(SchedulerViewModel.class);
+
+        if(coursesInfo != null) {
+            System.out.println("File exists");
+            try {
+                FileInputStream coursesInStream = new FileInputStream(coursesInfo);
+                ObjectInputStream coursesIn = new ObjectInputStream(coursesInStream);
+                ArrayList<Course> readCourses = (ArrayList<Course>) coursesIn.readObject();
+                model.setCourses(readCourses);
+                System.out.println("Read this many courses: " + readCourses.size());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
@@ -54,7 +81,21 @@ public class MainActivity extends AppCompatActivity {
 
     //Save course information to files
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+
+        System.out.println("Stopping app");
+        File courseInfo = new File(getFilesDir(), COURSES_FILE_NAME);
+        SchedulerViewModel model =
+                ViewModelProviders.of(this).get(SchedulerViewModel.class);
+
+        try {
+            FileOutputStream coursesOutStream = new FileOutputStream(courseInfo);
+            ObjectOutputStream coursesOut = new ObjectOutputStream(coursesOutStream);
+            coursesOut.writeObject(model.getCourses());
+            coursesOut.close();
+            coursesOutStream.close();
+        }catch(Exception e){ e.printStackTrace(); }
+
+        super.onStop();
     }
 }

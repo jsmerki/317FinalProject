@@ -1,6 +1,8 @@
 package com.example.scheduler;
 
-public class Course {
+import java.io.Serializable;
+
+public class Course implements Serializable {
 
     public String className;
     public String professor;
