@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text_assign_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Assignment:"
+        android:textSize="30dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/textBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.06"/>
+
+    <EditText
+        android:id="@+id/edit_assign_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/textBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_assign_name"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+    <RadioGroup
+        android:id="@+id/assignment_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_assign_name"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.15">
+
+        <RadioButton
+            android:id="@+id/assign_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reading"
+            android:textColor="@color/textBlack"
+            android:textSize="20dp"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/assign_homework"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Homework"
+            android:textColor="@color/textBlack"
+            android:textSize="20dp"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/assign_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textColor="@color/textBlack"
+            android:textSize="20dp"
+            android:checked="true" />
+
+    </RadioGroup>
+
+    <DatePicker
+        android:id="@+id/due_date"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/assignment_type"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.425" />
+
+    <TextView
+        android:id="@+id/text_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Description:"
+        android:textSize="30dp"
+        android:paddingLeft="10dp"
+        android:textColor="@color/textBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/due_date"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.05"/>
+
+    <EditText
+        android:id="@+id/edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_description"/>
+
+
+    <Button
+        android:id="@+id/confirm_assignment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="Add Assignment"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.075"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

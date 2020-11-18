@@ -5,21 +5,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 //Add tasks/assignments or display course info
 public class EditCourseFragment extends Fragment {
 
     public Activity containerActivity;
     public Course courseToEdit;
+    public AssignmentAdapter assignAdapter;
 
     public EditCourseFragment(Activity container, Course editCourse){
         this.containerActivity = container;
         this.courseToEdit = editCourse;
+    }
+
+    public Course getCourseToEdit(){
+        return courseToEdit;
     }
 
     @Override
@@ -32,6 +40,11 @@ public class EditCourseFragment extends Fragment {
         TextView editClassTitle = (TextView) inflatedView.findViewById(R.id.edit_class_title);
         editClassTitle.setText(courseToEdit.className);
 
+        assignAdapter = new AssignmentAdapter(getContext(), courseToEdit.getAssignments());
+        ListView coursesList = (ListView) inflatedView.findViewById(R.id.list_assignments);
+        coursesList.setAdapter(assignAdapter);
+
         return inflatedView;
     }
 }
+

@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     public CoursesFragment coursesFrag = new CoursesFragment(this);
     public AddCourseFragment addFrag = new AddCourseFragment(this);
+    public AddAssignmentFragment assignFrag;
     public EditCourseFragment editFrag;
 
     @Override
@@ -77,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
         editCourseTransaction.replace(R.id.fragment_container, editFrag);
         editCourseTransaction.addToBackStack(null);
         editCourseTransaction.commit();
+    }
+
+    public void returnToEditCourseFragment(){
+        FragmentTransaction removeAddAssignTransaction =
+                getSupportFragmentManager().beginTransaction();
+        removeAddAssignTransaction.replace(R.id.fragment_container, editFrag);
+        removeAddAssignTransaction.addToBackStack(null);
+        removeAddAssignTransaction.commit();
+    }
+
+    public void insertAddAssignmentFragment(View view){
+        assignFrag = new AddAssignmentFragment(this, editFrag.getCourseToEdit());
+
+        FragmentTransaction addAssignTransaction = getSupportFragmentManager().beginTransaction();
+        addAssignTransaction.replace(R.id.fragment_container, assignFrag);
+        addAssignTransaction.addToBackStack(null);
+        addAssignTransaction.commit();
     }
 
     //Save course information to files
