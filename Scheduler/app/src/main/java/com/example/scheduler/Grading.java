@@ -1,4 +1,6 @@
 package com.example.scheduler;
 
-public class Grading {
+import java.io.Serializable;
+
+public class Grading implements Serializable {
 }

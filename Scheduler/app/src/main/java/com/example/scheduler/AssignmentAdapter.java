@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,9 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
         assignName.setText(assign.assingName);
         assignDue.setText("Due By: " + formatter.format(assign.dueDate));
         description.setText(assign.description);
+
+        //Click listener for delete assignment button
+        Button delete = (Button) convertView.findViewById(R.id.delete_assign);
 
         return convertView;
     }

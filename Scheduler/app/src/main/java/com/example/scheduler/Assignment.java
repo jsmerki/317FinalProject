@@ -1,10 +1,11 @@
 package com.example.scheduler;
 
+import java.io.Serializable;
 import java.util.Date;
 
 enum type {ASSIGN_READING, ASSIGN_HOMEWORK, ASSIGN_TEST}
 
-public class Assignment {
+public class Assignment implements Serializable {
 
     private Course course;
     public String assingName;
