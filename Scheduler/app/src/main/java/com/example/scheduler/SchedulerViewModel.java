@@ -9,6 +9,14 @@ public class SchedulerViewModel extends ViewModel {
     private ArrayList<Course> courses = new ArrayList<Course>();
     private ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 
+    public void setCourses(ArrayList<Course> courseList){
+        this.courses = courseList;
+    }
+
+    public void setAssignments(ArrayList<Assignment> assignmentsList){
+        this.assignments = assignmentsList;
+    }
+
     public ArrayList<Course> getCourses(){
         return courses;
     }

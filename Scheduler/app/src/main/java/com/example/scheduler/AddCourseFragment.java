@@ -1,6 +1,7 @@
 package com.example.scheduler;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,7 @@ public class AddCourseFragment extends Fragment {
             R.id.check_thur, R.id.check_fri};
     private final String[] dayStrings = {"M", "Tu", "W", "Th", "F"};
 
-    Activity containerAcitivty;
+    public Activity containerAcitivty;
 
     public AddCourseFragment(Activity container){
         containerAcitivty = container;
@@ -35,10 +36,18 @@ public class AddCourseFragment extends Fragment {
 
         //Inflate layout to fit fragContainer View
         View inflatedView = inflater.inflate(R.layout.fragment_add_course, fragContainer, false);
-
+        inflatedView.setBackgroundColor(getResources().getColor(R.color.tintWhite));
+        inflatedView.setBackgroundTintMode(PorterDuff.Mode.LIGHTEN);
         //Add click listener for add class button
         Button register = inflatedView.findViewById(R.id.register_course);
         register.setOnClickListener(new RegisterCourse());
+
+        //Initialize time pickers
+        TimePicker startTime = (TimePicker) inflatedView.findViewById(R.id.picker_start);
+        TimePicker endTime = (TimePicker) inflatedView.findViewById(R.id.picker_end);
+
+        startTime.setHour(12); startTime.setMinute(00);
+        endTime.setHour(12); endTime.setMinute(00);
 
         return inflatedView;
     }
@@ -54,6 +63,7 @@ public class AddCourseFragment extends Fragment {
             //Get course information
             EditText name = (EditText) getActivity().findViewById(R.id.edit_name);
             EditText prof = (EditText) getActivity().findViewById(R.id.edit_prof);
+            EditText profEmail = (EditText) getActivity().findViewById(R.id.edit_email);
             EditText room = (EditText) getActivity().findViewById(R.id.edit_room);
 
             TimePicker courseStart = (TimePicker) getActivity().findViewById(R.id.picker_start);
@@ -63,7 +73,7 @@ public class AddCourseFragment extends Fragment {
 
 
             Course newCourse = new Course(name.getText().toString(), prof.getText().toString(),
-                    room.getText().toString(), courseTimes);
+                    profEmail.getText().toString(), room.getText().toString(), courseTimes);
 
             SchedulerViewModel model =
                     ViewModelProviders.of(getActivity()).get(SchedulerViewModel.class);
