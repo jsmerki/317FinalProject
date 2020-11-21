@@ -8,7 +8,7 @@ enum type {ASSIGN_READING, ASSIGN_HOMEWORK, ASSIGN_TEST}
 public class Assignment implements Serializable {
 
     private Course course;
-    public String assingName;
+    public String assignName;
     private type assignType;
     public Date dueDate;
     public String description;
@@ -16,7 +16,7 @@ public class Assignment implements Serializable {
     public Assignment(Course c, String name, int assign, Date date, String descr){
         this.course = c;
         this.dueDate = date;
-        this.assingName = name;
+        this.assignName = name;
         this.description = descr;
 
         if(assign == R.id.assign_read) assignType = type.ASSIGN_READING;

@@ -36,12 +36,9 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
         TextView description = (TextView) convertView.findViewById(R.id.assign_description);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
-        assignName.setText(assign.assingName);
+        assignName.setText(assign.assignName);
         assignDue.setText("Due By: " + formatter.format(assign.dueDate));
         description.setText(assign.description);
-
-        //Click listener for delete assignment button
-        Button delete = (Button) convertView.findViewById(R.id.delete_assign);
 
         return convertView;
     }

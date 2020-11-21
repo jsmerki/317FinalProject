@@ -15,6 +15,7 @@
     <!--Text Colors-->
     <color name="textWhite">#FFFFFF</color>
     <color name="textBlack">#000000</color>
+    <color name="linkBlue">#0000EE</color>
 
     <!--Course Colors-->
 

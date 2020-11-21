@@ -5,8 +5,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,9 +96,30 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction addAssignTransaction = getSupportFragmentManager().beginTransaction();
         addAssignTransaction.replace(R.id.fragment_container, assignFrag);
-        addAssignTransaction.addToBackStack(null);
         addAssignTransaction.commit();
     }
+
+    //ON CLICK LISTENERS FOR BUTTONS IN EDIT COURSE FRAGMENT
+    public void deleteAssignment(View v){
+        System.out.println("Deleting Assignment Listener");
+        TextView assignName = (TextView) findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) findViewById(R.id.assign_description);
+        editFrag.getCourseToEdit().removeAssignment(assignName.getText().toString(),
+                assignDescr.getText().toString());
+        editFrag.assignmentsChanged();
+    }
+
+    public void emailProfessor(View v){
+        TextView profEmail = (TextView) v;
+        Intent emailProf = new Intent(Intent.ACTION_SEND);
+        emailProf.setType("vnd.android.cursor.dir/email");
+
+        emailProf.putExtra(android.content.Intent.EXTRA_EMAIL,
+                new String[] { profEmail.getText().toString() });
+
+        startActivity(emailProf);
+    }
+
 
     //Save course information to files
     @Override

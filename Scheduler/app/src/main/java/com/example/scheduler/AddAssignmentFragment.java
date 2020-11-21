@@ -20,8 +20,9 @@ import java.util.Date;
 
 public class AddAssignmentFragment extends Fragment {
 
-    Activity containerActivity;
-    Course owningCourse;
+    public Activity containerActivity;
+    public Course owningCourse;
+    public Assignment existingAssignment;
 
     public AddAssignmentFragment(Activity container, Course owner){
         this.containerActivity = container;
@@ -36,8 +37,6 @@ public class AddAssignmentFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_add_assignment, fragContainer, false);
         inflatedView.setBackgroundColor(getResources().getColor(R.color.tintWhite));
         inflatedView.setBackgroundTintMode(PorterDuff.Mode.LIGHTEN);
-
-        //Get desired course
 
         //Set click listener for button
         Button addAssignment = inflatedView.findViewById(R.id.confirm_assignment);

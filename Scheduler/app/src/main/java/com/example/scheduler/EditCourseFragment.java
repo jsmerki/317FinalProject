@@ -2,6 +2,8 @@ package com.example.scheduler;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +40,23 @@ public class EditCourseFragment extends Fragment {
         View inflatedView = inflater.inflate(R.layout.fragment_edit_course, fragContainer, false);
 
         TextView editClassTitle = (TextView) inflatedView.findViewById(R.id.edit_class_title);
+        TextView profEmail = (TextView) inflatedView.findViewById(R.id.professor_email_link);
         editClassTitle.setText(courseToEdit.className);
+        profEmail.setText(courseToEdit.profEmail);
 
         assignAdapter = new AssignmentAdapter(getContext(), courseToEdit.getAssignments());
         ListView coursesList = (ListView) inflatedView.findViewById(R.id.list_assignments);
         coursesList.setAdapter(assignAdapter);
 
         return inflatedView;
+    }
+
+    public void deleteAssignment(String name, String descr){
+        courseToEdit.removeAssignment(name, descr);
+    }
+
+    public void assignmentsChanged(){
+        assignAdapter.notifyDataSetChanged();
     }
 }
 
