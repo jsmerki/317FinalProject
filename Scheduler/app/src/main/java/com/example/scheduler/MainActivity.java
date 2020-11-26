@@ -1,5 +1,6 @@
 package com.example.scheduler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
@@ -7,9 +8,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,18 +31,24 @@ public class MainActivity extends AppCompatActivity {
     public AddCourseFragment addFrag = new AddCourseFragment(this);
     public AddAssignmentFragment assignFrag;
     public EditCourseFragment editFrag;
+    public GradingFragment gradesFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //Set listener for bottom nav buttons
+        BottomNavigationView navView = findViewById(R.id.navigation);
+        navView.setOnNavigationItemSelectedListener(new MenuNavListener());
 
         File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
         SchedulerViewModel model =
                 ViewModelProviders.of(this).get(SchedulerViewModel.class);
 
+        //Read serialized course info
         if(coursesInfo != null) {
             System.out.println("File exists");
             try {
@@ -51,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        //Set GradingFragments courses list
+        gradesFrag = new GradingFragment(this, model.getCourses());
 
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
@@ -139,5 +153,36 @@ public class MainActivity extends AppCompatActivity {
         }catch(Exception e){ e.printStackTrace(); }
 
         super.onStop();
+    }
+
+    public class MenuNavListener implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if(item.getItemId() == R.id.courses_page){
+                FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
+                displayCourses.replace(R.id.fragment_container, coursesFrag);
+                displayCourses.commit();
+
+                return true;
+            }
+            else if(item.getItemId() == R.id.schedule_page){
+                return true;
+            }
+            else if(item.getItemId() == R.id.grading_page){
+                FragmentTransaction displayGrades = getSupportFragmentManager().beginTransaction();
+                displayGrades.replace(R.id.fragment_container, gradesFrag);
+                displayGrades.commit();
+
+                return true;
+            }
+            else if(item.getItemId() == R.id.help_page){
+                Toast helpToast = Toast.makeText(getApplicationContext(), "HELPING",
+                        Toast.LENGTH_SHORT);
+                helpToast.show();
+                return true;
+            }
+            return false;
+        }
     }
 }

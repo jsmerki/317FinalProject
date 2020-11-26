@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/courses_page"
         android:enabled="true"
         android:icon="@drawable/home"
         android:title="Courses"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/schedule_page"
         android:enabled="true"
         android:icon="@drawable/schedule"
         android:title="Schedule"/>
     <item
-        android:id="@+id/page_3"
+        android:id="@+id/grading_page"
         android:enabled="true"
         android:icon="@drawable/grades"
         android:title="Grading"/>
     <item
-        android:id="@+id/page_4"
+        android:id="@+id/help_page"
         android:enabled="true"
         android:icon="@drawable/help"
         android:title="Help"/>

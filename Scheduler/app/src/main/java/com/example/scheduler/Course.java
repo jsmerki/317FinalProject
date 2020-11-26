@@ -1,5 +1,7 @@
 package com.example.scheduler;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -57,4 +59,9 @@ public class Course implements Serializable {
         return false;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return className;
+    }
 }
