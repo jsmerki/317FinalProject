@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public AddCourseFragment addFrag = new AddCourseFragment(this);
     public AddAssignmentFragment assignFrag;
     public EditCourseFragment editFrag;
+    public GradingFragment gradesFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         SchedulerViewModel model =
                 ViewModelProviders.of(this).get(SchedulerViewModel.class);
 
+        //Read serialized course info
         if(coursesInfo != null) {
             System.out.println("File exists");
             try {
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        //Set GradingFragments courses list
+        gradesFrag = new GradingFragment(this, model.getCourses());
 
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
@@ -165,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId() == R.id.grading_page){
+                FragmentTransaction displayGrades = getSupportFragmentManager().beginTransaction();
+                displayGrades.replace(R.id.fragment_container, gradesFrag);
+                displayGrades.commit();
+
                 return true;
             }
             else if(item.getItemId() == R.id.help_page){
