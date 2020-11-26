@@ -1,5 +1,6 @@
 package com.example.scheduler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
@@ -7,9 +8,13 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //Set listener for bottom nav buttons
+        BottomNavigationView navView = findViewById(R.id.navigation);
+        navView.setOnNavigationItemSelectedListener(new MenuNavListener());
 
         File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
         SchedulerViewModel model =
@@ -139,5 +148,32 @@ public class MainActivity extends AppCompatActivity {
         }catch(Exception e){ e.printStackTrace(); }
 
         super.onStop();
+    }
+
+    public class MenuNavListener implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if(item.getItemId() == R.id.courses_page){
+                FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
+                displayCourses.replace(R.id.fragment_container, coursesFrag);
+                displayCourses.commit();
+
+                return true;
+            }
+            else if(item.getItemId() == R.id.schedule_page){
+                return true;
+            }
+            else if(item.getItemId() == R.id.grading_page){
+                return true;
+            }
+            else if(item.getItemId() == R.id.help_page){
+                Toast helpToast = Toast.makeText(getApplicationContext(), "HELPING",
+                        Toast.LENGTH_SHORT);
+                helpToast.show();
+                return true;
+            }
+            return false;
+        }
     }
 }
