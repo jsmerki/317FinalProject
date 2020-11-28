@@ -7,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class GradingAdapter extends ArrayAdapter<Grading> {
@@ -22,7 +18,7 @@ public class GradingAdapter extends ArrayAdapter<Grading> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        System.out.println("Getting grades");
+
         Grading grading = getItem(position);
 
         if(convertView == null){

@@ -2,6 +2,7 @@ package com.example.scheduler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
     final String COURSES_FILE_NAME = "course_info.ser";
 
     public CoursesFragment coursesFrag = new CoursesFragment(this);
-    public AddCourseFragment addFrag = new AddCourseFragment(this);
+    public ScheduleFragment schedFrag = new ScheduleFragment(this);
+    public AddCourseFragment addFrag;
     public AddAssignmentFragment assignFrag;
     public EditCourseFragment editFrag;
     public GradingFragment gradesFrag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void insertAddCourseFragment(View view){
+        addFrag = new AddCourseFragment(this);
 
         FragmentTransaction addCourseTransaction = getSupportFragmentManager().beginTransaction();
         addCourseTransaction.replace(R.id.fragment_container, addFrag);
@@ -142,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(emailProf);
     }
 
+    public void updateAssignmentsAdapter(){
+        editFrag.assignmentsChanged();
+    }
+
     //FUNCTIONS FOR NEW GRADING DIALOG
     public void showAddGradingDialog(View v){
         AddGradingDialog dialog = new AddGradingDialog();
@@ -185,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId() == R.id.schedule_page){
+                FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
+                displaySched.replace(R.id.fragment_container, schedFrag);
+                displaySched.commit();
+
                 return true;
             }
             else if(item.getItemId() == R.id.grading_page){

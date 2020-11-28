@@ -68,8 +68,12 @@ public class Course implements Serializable {
                     allAssignments.get(i).description.equals(descr)){
                 System.out.println("Assignment deleted");
                 allAssignments.remove(i);
-                return true;
+                //return true;
             }
+        }
+
+        for(Assignment assign: this.allAssignments){
+            System.out.println(assign.assignName);
         }
         return false;
     }

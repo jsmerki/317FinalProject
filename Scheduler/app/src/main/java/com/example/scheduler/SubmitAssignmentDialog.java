@@ -62,6 +62,8 @@ public class SubmitAssignmentDialog extends DialogFragment {
                         System.out.println(graded.assignName + " " + graded.pointsEarned + "/" + graded.pointsOutOf + " Submitted");
                         owningCourse.removeAssignment(assignName, assignDescr);
                         owningCourse.addGradedAssignment(category.categoryName, graded);
+
+                        ((MainActivity) getActivity()).updateAssignmentsAdapter();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
