@@ -17,8 +17,9 @@
     <ListView
         android:id="@+id/grades_list"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="100dp"
         android:padding="20dp"
+        android:background="@drawable/list_course_border"
         app:layout_constraintTop_toBottomOf="@id/course_spinner"
         app:layout_constraintLeft_toLeftOf="parent" />
 

@@ -26,6 +26,9 @@ public class Course implements Serializable {
     public ArrayList<Assignment> getAssignments(){
         return allAssignments;
     }
+    public ArrayList<Grading> getGradingCategories() {
+        return gradingCategories;
+    }
 
     public boolean addAssignment(Assignment newAssignment){
         if(allAssignments.size() == 0){

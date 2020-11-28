@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
-        coursesTransaction.addToBackStack(null);
+        //coursesTransaction.addToBackStack(null);
         coursesTransaction.commit();
     }
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction removeAddCourseTransaction =
                 getSupportFragmentManager().beginTransaction();
         removeAddCourseTransaction.replace(R.id.fragment_container, coursesFrag);
-        removeAddCourseTransaction.addToBackStack(null);
+        //removeAddCourseTransaction.addToBackStack(null);
         removeAddCourseTransaction.commit();
     }
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction editCourseTransaction = getSupportFragmentManager().beginTransaction();
         editCourseTransaction.replace(R.id.fragment_container, editFrag);
-        editCourseTransaction.addToBackStack(null);
+        //editCourseTransaction.addToBackStack(null);
         editCourseTransaction.commit();
     }
 
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction removeAddAssignTransaction =
                 getSupportFragmentManager().beginTransaction();
         removeAddAssignTransaction.replace(R.id.fragment_container, editFrag);
-        removeAddAssignTransaction.addToBackStack(null);
+        //removeAddAssignTransaction.addToBackStack(null);
         removeAddAssignTransaction.commit();
     }
 
@@ -113,17 +113,18 @@ public class MainActivity extends AppCompatActivity {
 
     //ON CLICK LISTENERS FOR BUTTONS IN EDIT COURSE FRAGMENT
     public void deleteAssignment(View v){
-        System.out.println("Deleting Assignment Listener");
-        TextView assignName = (TextView) findViewById(R.id.assign_title);
-        TextView assignDescr = (TextView) findViewById(R.id.assign_description);
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
         editFrag.getCourseToEdit().removeAssignment(assignName.getText().toString(),
                 assignDescr.getText().toString());
         editFrag.assignmentsChanged();
     }
 
     public void submitAssignment(View v){
-        TextView assignName = (TextView) findViewById(R.id.assign_title);
-        TextView assignDescr = (TextView) findViewById(R.id.assign_description);
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
         //Display dialog that gets score and grading category
         SubmitAssignmentDialog dialog = new SubmitAssignmentDialog(editFrag.getCourseToEdit());
         dialog.setAssignmentInfo(assignName.getText().toString(), assignDescr.getText().toString());

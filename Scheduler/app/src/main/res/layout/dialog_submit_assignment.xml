@@ -4,21 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Spinner
-        android:id="@+id/grade_categories_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingLeft="10dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/text_points_earned"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:autoSizeTextType="uniform"
+        android:layout_height="50dp"
         android:text="Points Earned:"
-        app:layout_constraintTop_toBottomOf="@id/grade_categories_spinner"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.35"/>
@@ -26,9 +18,9 @@
     <EditText
         android:id="@+id/edit_points_earned"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/grade_categories_spinner"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/text_points_earned"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.15" />
@@ -36,10 +28,10 @@
     <TextView
         android:id="@+id/text_points_max"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:autoSizeTextType="uniform"
+        android:layout_height="50dp"
         android:text="Maximum Points:"
-        app:layout_constraintTop_toBottomOf="@id/grade_categories_spinner"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/edit_points_earned"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.35"/>
@@ -47,11 +39,20 @@
     <EditText
         android:id="@+id/edit_points_max"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/grade_categories_spinner"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/text_points_max"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.15" />
+
+    <Spinner
+        android:id="@+id/grade_categories_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="10dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintTop_toBottomOf="@id/text_points_earned"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

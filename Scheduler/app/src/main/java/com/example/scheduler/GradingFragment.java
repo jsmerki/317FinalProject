@@ -16,11 +16,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GradingFragment extends Fragment {
 
     public Activity containerActivity;
     public ArrayList<Course> coursesList = new ArrayList<Course>();
+    public GradingAdapter gradingAdapter;
 
     public GradingFragment(Activity container, ArrayList<Course> courses){
         this.containerActivity = container;
@@ -31,6 +33,7 @@ public class GradingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup fragContainer,
                              Bundle savedInstanceState) {
 
+        System.out.println("In Gradings");
         //Inflate layout to fit fragContainer View
         View inflatedView = inflater.inflate(R.layout.fragment_grading, fragContainer, false);
 
@@ -42,6 +45,12 @@ public class GradingFragment extends Fragment {
 
         courseSpinner.setAdapter(spinnerAdapter);
 
+        //Try ListView again
+        Course course = coursesList.get(courseSpinner.getSelectedItemPosition());
+        ListView grades = (ListView) inflatedView.findViewById(R.id.grades_list);
+        gradingAdapter = new GradingAdapter(getContext(), course.getGradingCategories());
+        grades.setAdapter(gradingAdapter);
+
         return inflatedView;
     }
 
@@ -50,6 +59,7 @@ public class GradingFragment extends Fragment {
         int courseIndex = courseSpinner.getSelectedItemPosition();
         Course course = coursesList.get(courseIndex);
         course.addGrading(grade);
+        gradingAdapter.notifyDataSetChanged();
         Toast gradeToast = Toast.makeText(getContext(),
                 grade.categoryName + " added to " + course.className, Toast.LENGTH_SHORT);
         gradeToast.show();
