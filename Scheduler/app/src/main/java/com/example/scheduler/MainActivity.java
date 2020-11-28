@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 ObjectInputStream coursesIn = new ObjectInputStream(coursesInStream);
                 ArrayList<Course> readCourses = (ArrayList<Course>) coursesIn.readObject();
                 model.setCourses(readCourses);
-                System.out.println("Read this many courses: " + readCourses.size());
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -123,6 +121,15 @@ public class MainActivity extends AppCompatActivity {
         editFrag.assignmentsChanged();
     }
 
+    public void submitAssignment(View v){
+        TextView assignName = (TextView) findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) findViewById(R.id.assign_description);
+        //Display dialog that gets score and grading category
+        SubmitAssignmentDialog dialog = new SubmitAssignmentDialog(editFrag.getCourseToEdit());
+        dialog.setAssignmentInfo(assignName.getText().toString(), assignDescr.getText().toString());
+        dialog.show(getSupportFragmentManager(), "submit");
+    }
+
     public void emailProfessor(View v){
         TextView profEmail = (TextView) v;
         Intent emailProf = new Intent(Intent.ACTION_SEND);
@@ -134,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(emailProf);
     }
 
+    //FUNCTIONS FOR NEW GRADING DIALOG
+    public void showAddGradingDialog(View v){
+        AddGradingDialog dialog = new AddGradingDialog();
+        dialog.show(getSupportFragmentManager(), "grading");
+    }
+
+    public void addGradingToCourse(Grading grade){
+        gradesFrag.addGradingInFragment(grade);
+    }
 
     //Save course information to files
     @Override
@@ -155,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    //Listener for bottom navigation bar
     public class MenuNavListener implements BottomNavigationView.OnNavigationItemSelectedListener{
 
         @Override

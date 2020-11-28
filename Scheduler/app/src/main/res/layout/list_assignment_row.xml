@@ -74,6 +74,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/complete"
+            android:onClick="submitAssignment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

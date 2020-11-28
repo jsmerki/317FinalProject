@@ -13,6 +13,7 @@ public class Course implements Serializable {
     public String classroom;
     public String scheduleStr;
     ArrayList<Assignment> allAssignments = new ArrayList<Assignment>();
+    ArrayList<Grading> gradingCategories = new ArrayList<Grading>();
 
     public Course(String name, String prof, String email, String room, String sched){
         this.className = name;
@@ -46,6 +47,17 @@ public class Course implements Serializable {
         }
     }
 
+    public Assignment findAssignment(String name, String descr){
+        for(int i = 0; i < allAssignments.size(); i++){
+            if(allAssignments.get(i).assignName.equals(name) &&
+                    allAssignments.get(i).description.equals(descr)){
+                System.out.println("Assignment found");
+                return allAssignments.get(i);
+            }
+        }
+        return null;
+    }
+
     public boolean removeAssignment(String name, String descr){
         System.out.println("Deleting Assignment " + name + " for " + className);
         for(int i = 0; i < allAssignments.size(); i++){
@@ -57,6 +69,19 @@ public class Course implements Serializable {
             }
         }
         return false;
+    }
+
+    public void addGrading(Grading newGrading){
+        gradingCategories.add(newGrading);
+    }
+
+    public void addGradedAssignment(String gradingName, Assignment graded){
+        for(Grading category: gradingCategories){
+            if(category.categoryName.equals(gradingName)){
+                category.addAssignment(graded);
+                category.getGradingScore();
+            }
+        }
     }
 
     @NonNull
