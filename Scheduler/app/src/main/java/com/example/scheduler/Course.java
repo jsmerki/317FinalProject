@@ -12,15 +12,17 @@ public class Course implements Serializable {
     public String profEmail;
     public String classroom;
     public String scheduleStr;
+    public int courseDays;
     ArrayList<Assignment> allAssignments = new ArrayList<Assignment>();
     ArrayList<Grading> gradingCategories = new ArrayList<Grading>();
 
-    public Course(String name, String prof, String email, String room, String sched){
+    public Course(String name, String prof, String email, String room, String sched, int days){
         this.className = name;
         this.professor = prof;
         this.profEmail = email;
         this.classroom = room;
         this.scheduleStr = sched;
+        this.courseDays = days;
     }
 
     public ArrayList<Assignment> getAssignments(){

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ScheduleFragment extends Fragment {
@@ -29,6 +31,21 @@ public class ScheduleFragment extends Fragment {
         System.out.println(currentDay);
         //Inflate layout to fit fragContainer View
         View inflatedView = inflater.inflate(R.layout.fragment_schedule, fragContainer, false);
+
+        //Get courses and iterate through them to see if they are scheduled for today,
+        SchedulerViewModel model =
+                ViewModelProviders.of(getActivity()).get(SchedulerViewModel.class);
+        ArrayList<Course> courses = model.getCourses();
+
+        System.out.println(model.getCourses().size());
+        for(Course course: courses){
+            System.out.println(course.className);
+            String[] schedInfo = course.scheduleStr.split(" ");
+            for(String str: schedInfo){
+                System.out.println(str);
+            }
+        }
+        System.out.println("DONE");
 
         return inflatedView;
     }
