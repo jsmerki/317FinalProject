@@ -14,7 +14,8 @@
         android:gravity="center_horizontal"
         android:paddingLeft="5dp"
         android:layout_marginBottom="15dp"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textColor="@color/textBlack"/>
 
     <TextView
         android:id="@+id/course_prof"
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingLeft="5dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/textBlack"/>
 
     <TextView
         android:id="@+id/course_room"
@@ -30,7 +32,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingLeft="5dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/textBlack"/>
 
     <TextView
         android:id="@+id/course_schedule"
@@ -38,6 +41,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingLeft="5dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textColor="@color/textBlack"/>
 
 </LinearLayout>

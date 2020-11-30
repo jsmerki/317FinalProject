@@ -31,6 +31,7 @@ public class Assignment implements Serializable {
     public Date getDueDate(){
         return dueDate;
     }
+    public Course getCourse(){ return course;}
 
     public void setScores(float outOf, float earned){
         this.pointsOutOf = outOf;

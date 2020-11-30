@@ -12,14 +12,25 @@ import java.util.ArrayList;
 
 public class GradingAdapter extends ArrayAdapter<Grading> {
 
+    public ArrayList<Grading> gradeCategories = new ArrayList<Grading>();
+
     public GradingAdapter(Context c, ArrayList<Grading> grades){
         super(c, 0, grades);
+    }
+
+    public void updateGradeCategories(ArrayList<Grading> grades){
+        this.gradeCategories = grades;
+    }
+
+    @Override
+    public int getCount() {
+        return this.gradeCategories.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Grading grading = getItem(position);
+        Grading grading = gradeCategories.get(position);
 
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_grading_row,

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ public class GradingFragment extends Fragment {
 
         //Set course name list for spinner
         Spinner courseSpinner = inflatedView.findViewById(R.id.course_spinner);
+        courseSpinner.setOnItemSelectedListener(new ViewCourseGrading());
         ArrayAdapter<Course> spinnerAdapter = new ArrayAdapter<Course>(getActivity(),
                 R.layout.spinner_course_name, coursesList);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_course_name);
@@ -59,9 +61,28 @@ public class GradingFragment extends Fragment {
         int courseIndex = courseSpinner.getSelectedItemPosition();
         Course course = coursesList.get(courseIndex);
         course.addGrading(grade);
+        gradingAdapter.updateGradeCategories(course.gradingCategories);
         gradingAdapter.notifyDataSetChanged();
         Toast gradeToast = Toast.makeText(getContext(),
                 grade.categoryName + " added to " + course.className, Toast.LENGTH_SHORT);
         gradeToast.show();
+    }
+
+    public class ViewCourseGrading implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            int courseIndex = parent.getSelectedItemPosition();
+            Course course = coursesList.get(courseIndex);
+            gradingAdapter.updateGradeCategories(course.gradingCategories);
+            gradingAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            //NOTHING NEEDED
+        }
+
+
     }
 }
