@@ -24,6 +24,7 @@ public class GradingFragment extends Fragment {
     public Activity containerActivity;
     public ArrayList<Course> coursesList = new ArrayList<Course>();
     public GradingAdapter gradingAdapter;
+    public ListView grades;
 
     public GradingFragment(Activity container, ArrayList<Course> courses){
         this.containerActivity = container;
@@ -49,7 +50,7 @@ public class GradingFragment extends Fragment {
 
         //Try ListView again
         Course course = coursesList.get(courseSpinner.getSelectedItemPosition());
-        ListView grades = (ListView) inflatedView.findViewById(R.id.grades_list);
+        grades = (ListView) inflatedView.findViewById(R.id.grades_list);
         gradingAdapter = new GradingAdapter(getContext(), course.getGradingCategories());
         grades.setAdapter(gradingAdapter);
 
@@ -66,6 +67,7 @@ public class GradingFragment extends Fragment {
         Toast gradeToast = Toast.makeText(getContext(),
                 grade.categoryName + " added to " + course.className, Toast.LENGTH_SHORT);
         gradeToast.show();
+        grades.setVisibility(View.VISIBLE);
     }
 
     public class ViewCourseGrading implements AdapterView.OnItemSelectedListener {
@@ -74,6 +76,9 @@ public class GradingFragment extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             int courseIndex = parent.getSelectedItemPosition();
             Course course = coursesList.get(courseIndex);
+            if(course.gradingCategories.size() == 0){
+                grades.setVisibility(View.GONE);
+            }
             gradingAdapter.updateGradeCategories(course.gradingCategories);
             gradingAdapter.notifyDataSetChanged();
         }

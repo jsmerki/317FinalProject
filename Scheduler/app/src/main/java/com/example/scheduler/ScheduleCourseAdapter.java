@@ -36,13 +36,13 @@ public class ScheduleCourseAdapter extends ArrayAdapter<Course> {
         //FIXME: IS IT OKAY TO CHANGE MIN API TO 26?????
         List<String> schedSplit = Arrays.asList(course.scheduleStr.split(" "));
         String times = "";
-        for(int i = 0; i < schedSplit.size(); i++){
+        for(int i = 1; i < schedSplit.size(); i++){
             times = times + schedSplit.get(i) + " ";
         }
         courseTime.setText("Time: " + times);
 
         if(course.classroom.length() > 0){
-            courseRoom.setText("Room " + course.classroom);
+            courseRoom.setText("Room: " + course.classroom);
             courseRoom.setVisibility(View.VISIBLE);
         }
 
