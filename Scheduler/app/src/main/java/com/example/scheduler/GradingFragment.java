@@ -47,12 +47,18 @@ public class GradingFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_course_name);
 
         courseSpinner.setAdapter(spinnerAdapter);
+        grades = (ListView) inflatedView.findViewById(R.id.grades_list);
 
         //Try ListView again
-        Course course = coursesList.get(courseSpinner.getSelectedItemPosition());
-        grades = (ListView) inflatedView.findViewById(R.id.grades_list);
-        gradingAdapter = new GradingAdapter(getContext(), course.getGradingCategories());
-        grades.setAdapter(gradingAdapter);
+        if(coursesList.size() > 0) {
+            Course course = coursesList.get(courseSpinner.getSelectedItemPosition());
+            gradingAdapter = new GradingAdapter(getContext(), course.getGradingCategories());
+            grades.setAdapter(gradingAdapter);
+        }
+        else{
+            gradingAdapter = new GradingAdapter(getContext(), new ArrayList<Grading>());
+            grades.setAdapter(gradingAdapter);
+        }
 
         return inflatedView;
     }

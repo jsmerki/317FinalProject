@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.925"/>
+        app:layout_constraintHeight_percent="0.9"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
@@ -27,7 +27,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.0725"
+        app:layout_constraintHeight_percent="0.1"
         app:itemBackground="@color/textWhite"
         app:itemIconTint="@color/textBlack"
         app:itemTextColor="@color/textBlack"
