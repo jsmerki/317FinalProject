@@ -7,8 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +30,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -131,44 +136,58 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveInCalendar(View v){
 
+
         System.out.println("Getting Calendars");
-        final String[] EVENT_PROJECTION = new String[] {
-                CalendarContract.Calendars._ID,                           // 0
-                CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-                CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
-        };
-        final int PROJECTION_ID_INDEX = 0;
-        final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-        final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-        final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 
-        Cursor cur = null;
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
+        Course course = editFrag.getCourseToEdit();
+        Assignment assign = course.findAssignment(assignName.getText().toString(),
+                assignDescr.getText().toString());
+
+        long myCalID = 1;
+        Calendar startTime = Calendar.getInstance();
+        Calendar stopTime = Calendar.getInstance();
+
+        System.out.println("DATE: " + assign.dueDate.getYear() + " " + assign.dueDate.getMonth() + " " +
+                assign.dueDate.getDate());
+
+        //Accounting for DatePicker returning date number off by 2
+        startTime.set(assign.dueDate.getYear(), assign.dueDate.getMonth(),
+                assign.dueDate.getDate(), 0, 0);
+        stopTime.set(assign.dueDate.getYear(), assign.dueDate.getMonth(),
+                assign.dueDate.getDate(), 0, 5);
+
+        long startMillis = startTime.getTimeInMillis();
+        long stopMillis = stopTime.getTimeInMillis();
+
         ContentResolver cr = getContentResolver();
-        Uri uri = CalendarContract.Calendars.CONTENT_URI;
-        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-        //String[] selectionArgs = new String[] {"hera@example.com", "com.example",
-                //"hera@example.com"};
-        // Submit the query and get a Cursor object back.
-        cur = cr.query(uri, EVENT_PROJECTION, null , null, null);
+        ContentValues eventVals = new ContentValues();
+        eventVals.put(CalendarContract.Events.DTSTART, startMillis);
+        eventVals.put(CalendarContract.Events.DTEND, stopMillis);
+        eventVals.put(CalendarContract.Events.TITLE, course.className + ": " + assign.assignName);
+        eventVals.put(CalendarContract.Events.CALENDAR_ID, myCalID);
+        eventVals.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
 
-        while (cur.moveToNext()) {
-            long calID = 0;
-            String displayName = null;
-            String accountName = null;
-            String ownerName = null;
+        if(checkSelfPermission(Manifest.permission.WRITE_CALENDAR)
+                == PackageManager.PERMISSION_GRANTED) {
+            Uri eventURI = cr.insert(CalendarContract.Events.CONTENT_URI, eventVals);
+            long eventID = Long.parseLong(eventURI.getLastPathSegment());
 
-            // Get the field values
-            calID = cur.getLong(PROJECTION_ID_INDEX);
-            displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
-            accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
-            ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+            System.out.println("New Event Created! ID: " + eventID);
 
-            System.out.println("CALENDAR:\t" + calID + " " + displayName + " " + accountName + " " + ownerName);
-
+            Toast calWriteToast = Toast.makeText(getApplicationContext(), "New Event Created",
+                    Toast.LENGTH_SHORT);
+            calWriteToast.show();
         }
+        else{
+            Toast calFailToast = Toast.makeText(getApplicationContext(),
+                    "ERROR: Calendar Permissions Needed",
+                    Toast.LENGTH_SHORT);
+            calFailToast.show();
+        }
+
     }
 
     public void submitAssignment(View v){
@@ -204,6 +223,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void addGradingToCourse(Grading grade){
         gradesFrag.addGradingInFragment(grade);
+    }
+
+    //Callback for getting weather data in schedule
+    public void getWeatherReport(View v){
+        new WeatherWebRequest().execute();
     }
 
     //Save course information to files
