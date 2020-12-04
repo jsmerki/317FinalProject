@@ -59,7 +59,6 @@ public class AddAssignmentFragment extends Fragment {
             DatePicker dueDatePicker = (DatePicker) getActivity().findViewById(R.id.due_date);
             Date dueDate = new Date(dueDatePicker.getYear(), dueDatePicker.getMonth(),
                     dueDatePicker.getDayOfMonth());
-            System.out.println(dueDate.getYear());
 
             EditText editDescr = (EditText) getActivity().findViewById(R.id.edit_description);
             String description = editDescr.getText().toString();

@@ -17,30 +17,36 @@
             <TextView
                 android:id="@+id/edit_class_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="7"
                 android:textColor="@color/textBlack"
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:textSize="40dp" />
+                android:paddingLeft="11dp"
+                android:autoSizeTextType="uniform"
+                />
 
             <TextView
                 android:id="@+id/professor_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
                 android:text="Professor:"
                 android:gravity="center_horizontal"
                 android:textColor="@color/textBlack"
-                android:textSize="30dp" />
+                android:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/professor_email_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:textColor="@color/linkBlue"
                 android:onClick="emailProfessor"
-                android:textSize="25dp" />
+                android:autoSizeTextType="uniform" />
 
     </LinearLayout>
 

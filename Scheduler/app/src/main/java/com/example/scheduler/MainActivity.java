@@ -2,12 +2,20 @@ package com.example.scheduler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,16 +30,20 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
     final String COURSES_FILE_NAME = "course_info.ser";
 
     public CoursesFragment coursesFrag = new CoursesFragment(this);
-    public AddCourseFragment addFrag = new AddCourseFragment(this);
+    public ScheduleFragment schedFrag = new ScheduleFragment(this);
+    public AddCourseFragment addFrag;
     public AddAssignmentFragment assignFrag;
     public EditCourseFragment editFrag;
     public GradingFragment gradesFrag;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 ObjectInputStream coursesIn = new ObjectInputStream(coursesInStream);
                 ArrayList<Course> readCourses = (ArrayList<Course>) coursesIn.readObject();
                 model.setCourses(readCourses);
-                System.out.println("Read this many courses: " + readCourses.size());
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -68,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
         coursesTransaction.add(R.id.fragment_container, coursesFrag);
-        coursesTransaction.addToBackStack(null);
+        //coursesTransaction.addToBackStack(null);
         coursesTransaction.commit();
     }
 
     public void insertAddCourseFragment(View view){
+        addFrag = new AddCourseFragment(this);
 
         FragmentTransaction addCourseTransaction = getSupportFragmentManager().beginTransaction();
         addCourseTransaction.replace(R.id.fragment_container, addFrag);
@@ -84,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction removeAddCourseTransaction =
                 getSupportFragmentManager().beginTransaction();
         removeAddCourseTransaction.replace(R.id.fragment_container, coursesFrag);
-        removeAddCourseTransaction.addToBackStack(null);
+        //removeAddCourseTransaction.addToBackStack(null);
         removeAddCourseTransaction.commit();
     }
 
@@ -93,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction editCourseTransaction = getSupportFragmentManager().beginTransaction();
         editCourseTransaction.replace(R.id.fragment_container, editFrag);
-        editCourseTransaction.addToBackStack(null);
+        //editCourseTransaction.addToBackStack(null);
         editCourseTransaction.commit();
     }
 
@@ -101,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction removeAddAssignTransaction =
                 getSupportFragmentManager().beginTransaction();
         removeAddAssignTransaction.replace(R.id.fragment_container, editFrag);
-        removeAddAssignTransaction.addToBackStack(null);
+        //removeAddAssignTransaction.addToBackStack(null);
         removeAddAssignTransaction.commit();
     }
 
@@ -115,12 +126,78 @@ public class MainActivity extends AppCompatActivity {
 
     //ON CLICK LISTENERS FOR BUTTONS IN EDIT COURSE FRAGMENT
     public void deleteAssignment(View v){
-        System.out.println("Deleting Assignment Listener");
-        TextView assignName = (TextView) findViewById(R.id.assign_title);
-        TextView assignDescr = (TextView) findViewById(R.id.assign_description);
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
         editFrag.getCourseToEdit().removeAssignment(assignName.getText().toString(),
                 assignDescr.getText().toString());
         editFrag.assignmentsChanged();
+    }
+
+    public void saveInCalendar(View v){
+
+
+        System.out.println("Getting Calendars");
+
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
+        Course course = editFrag.getCourseToEdit();
+        Assignment assign = course.findAssignment(assignName.getText().toString(),
+                assignDescr.getText().toString());
+
+        long myCalID = 1;
+        Calendar startTime = Calendar.getInstance();
+        Calendar stopTime = Calendar.getInstance();
+
+        System.out.println("DATE: " + assign.dueDate.getYear() + " " + assign.dueDate.getMonth() + " " +
+                assign.dueDate.getDate());
+
+        //Accounting for DatePicker returning date number off by 2
+        startTime.set(assign.dueDate.getYear(), assign.dueDate.getMonth(),
+                assign.dueDate.getDate(), 0, 0);
+        stopTime.set(assign.dueDate.getYear(), assign.dueDate.getMonth(),
+                assign.dueDate.getDate(), 0, 5);
+
+        long startMillis = startTime.getTimeInMillis();
+        long stopMillis = stopTime.getTimeInMillis();
+
+        ContentResolver cr = getContentResolver();
+        ContentValues eventVals = new ContentValues();
+        eventVals.put(CalendarContract.Events.DTSTART, startMillis);
+        eventVals.put(CalendarContract.Events.DTEND, stopMillis);
+        eventVals.put(CalendarContract.Events.TITLE, course.className + ": " + assign.assignName);
+        eventVals.put(CalendarContract.Events.CALENDAR_ID, myCalID);
+        eventVals.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+
+        if(checkSelfPermission(Manifest.permission.WRITE_CALENDAR)
+                == PackageManager.PERMISSION_GRANTED) {
+            Uri eventURI = cr.insert(CalendarContract.Events.CONTENT_URI, eventVals);
+            long eventID = Long.parseLong(eventURI.getLastPathSegment());
+
+            System.out.println("New Event Created! ID: " + eventID);
+
+            Toast calWriteToast = Toast.makeText(getApplicationContext(), "New Event Created",
+                    Toast.LENGTH_SHORT);
+            calWriteToast.show();
+        }
+        else{
+            Toast calFailToast = Toast.makeText(getApplicationContext(),
+                    "ERROR: Calendar Permissions Needed",
+                    Toast.LENGTH_SHORT);
+            calFailToast.show();
+        }
+
+    }
+
+    public void submitAssignment(View v){
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
+        //Display dialog that gets score and grading category
+        SubmitAssignmentDialog dialog = new SubmitAssignmentDialog(editFrag.getCourseToEdit());
+        dialog.setAssignmentInfo(assignName.getText().toString(), assignDescr.getText().toString());
+        dialog.show(getSupportFragmentManager(), "submit");
     }
 
     public void emailProfessor(View v){
@@ -134,6 +211,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(emailProf);
     }
 
+    public void updateAssignmentsAdapter(){
+        editFrag.assignmentsChanged();
+    }
+
+    //FUNCTIONS FOR NEW GRADING DIALOG
+    public void showAddGradingDialog(View v){
+        AddGradingDialog dialog = new AddGradingDialog();
+        dialog.show(getSupportFragmentManager(), "grading");
+    }
+
+    public void addGradingToCourse(Grading grade){
+        gradesFrag.addGradingInFragment(grade);
+    }
+
+    //Callback for getting weather data in schedule
+    public void getWeatherReport(View v){
+        new WeatherWebRequest().execute();
+    }
 
     //Save course information to files
     @Override
@@ -155,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    //Listener for bottom navigation bar
     public class MenuNavListener implements BottomNavigationView.OnNavigationItemSelectedListener{
 
         @Override
@@ -167,6 +263,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else if(item.getItemId() == R.id.schedule_page){
+                FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
+                displaySched.replace(R.id.fragment_container, schedFrag);
+                displaySched.commit();
+
                 return true;
             }
             else if(item.getItemId() == R.id.grading_page){

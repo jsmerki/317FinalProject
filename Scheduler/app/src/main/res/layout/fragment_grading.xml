@@ -8,8 +8,30 @@
         android:id="@+id/course_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_course_border"
+        android:background="@drawable/spinner_course_grading"
         android:paddingLeft="10dp"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginBottom="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:spinnerMode="dropdown"/>
+
+    <ListView
+        android:id="@+id/grades_list"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="20dp"
+        android:background="@drawable/list_course_border"
+        app:layout_constraintTop_toBottomOf="@id/course_spinner"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_assignment_fab"
+        android:src="@drawable/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="15dp"
+        android:onClick="showAddGradingDialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,11 +58,12 @@
 
 
         <Button
-            android:id="@+id/edit_assign"
+            android:id="@+id/calendar_assign"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit"
+            android:background="@drawable/calendar"
+            android:onClick="saveInCalendar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/delete_assign"
             app:layout_constraintRight_toLeftOf="@id/complete_assign"/>
@@ -74,6 +75,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/complete"
+            android:onClick="submitAssignment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

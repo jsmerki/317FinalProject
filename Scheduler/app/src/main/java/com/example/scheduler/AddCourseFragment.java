@@ -57,7 +57,7 @@ public class AddCourseFragment extends Fragment {
         @Override
         public void onClick(View v) {
 
-            String courseDays = "";
+            int courseDays = 0;
             String courseTimes = "";
 
             //Get course information
@@ -70,10 +70,11 @@ public class AddCourseFragment extends Fragment {
             TimePicker courseEnd = (TimePicker) getActivity().findViewById(R.id.picker_end);
 
             courseTimes = createScheduleString(courseStart, courseEnd);
-
+            courseDays = createDaysInt();
 
             Course newCourse = new Course(name.getText().toString(), prof.getText().toString(),
-                    profEmail.getText().toString(), room.getText().toString(), courseTimes);
+                    profEmail.getText().toString(), room.getText().toString(), courseTimes,
+                    courseDays);
 
             SchedulerViewModel model =
                     ViewModelProviders.of(getActivity()).get(SchedulerViewModel.class);
@@ -87,6 +88,16 @@ public class AddCourseFragment extends Fragment {
 
             ((MainActivity) getActivity()).returnToCoursesFragment();
         }
+    }
+
+    public int createDaysInt(){
+        int daysInt = 0;
+        for(int i = 0; i < 5; i++){
+            CheckBox dayBox = getActivity().findViewById(dayCheckboxIds[i]);
+            if(dayBox != null &&dayBox.isChecked()) daysInt = (daysInt * 10) + i;
+        }
+
+        return daysInt;
     }
 
     public String createScheduleString(TimePicker start, TimePicker end){

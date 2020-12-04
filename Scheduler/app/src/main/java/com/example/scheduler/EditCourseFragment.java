@@ -51,10 +51,6 @@ public class EditCourseFragment extends Fragment {
         return inflatedView;
     }
 
-    public void deleteAssignment(String name, String descr){
-        courseToEdit.removeAssignment(name, descr);
-    }
-
     public void assignmentsChanged(){
         assignAdapter.notifyDataSetChanged();
     }
