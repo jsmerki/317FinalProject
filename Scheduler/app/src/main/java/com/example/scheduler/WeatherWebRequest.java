@@ -1,5 +1,6 @@
 package com.example.scheduler;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -11,14 +12,17 @@ import java.net.URL;
 
 public class WeatherWebRequest extends AsyncTask<Object, Void, JSONObject> {
 
+    MainActivity mainActivity;
+
+    public WeatherWebRequest(MainActivity main){
+        this.mainActivity = main;
+    }
     String baseURL = "http://api.weatherapi.com/v1/current.json?key=e810857c37d24c879ea61929200312&q=85719";
     @Override
     protected JSONObject doInBackground(Object[] objects){
 
         try {
-
-            //FIXME: get permission to get user zip code!!!
-            String weatherURL = baseURL;//+ q=zipcode
+            String weatherURL = baseURL;
             URL url = new URL(weatherURL);
 
             BufferedReader weatherData = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -35,4 +39,8 @@ public class WeatherWebRequest extends AsyncTask<Object, Void, JSONObject> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(JSONObject weather) {
+        mainActivity.showWeatherDialog(weather);
+    }
 }

@@ -32,6 +32,7 @@ public class SubmitAssignmentDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         AlertDialog.Builder gradingBuilder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         final LayoutInflater inflater = requireActivity().getLayoutInflater();

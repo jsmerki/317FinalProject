@@ -17,4 +17,10 @@
         android:icon="@drawable/help"
         android:title="Help"/>
 
+    <item
+        android:id="@+id/extra_tablet"
+        android:enabled="true"
+        android:icon="@drawable/help"
+        android:title="Help"/>
+
 </menu>

@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.sql.Time;
+import java.util.Date;
 
 //Form to submit initial class information
 public class AddCourseFragment extends Fragment {
@@ -94,9 +95,9 @@ public class AddCourseFragment extends Fragment {
         int daysInt = 0;
         for(int i = 0; i < 5; i++){
             CheckBox dayBox = getActivity().findViewById(dayCheckboxIds[i]);
-            if(dayBox != null &&dayBox.isChecked()) daysInt = (daysInt * 10) + i;
+            if(dayBox != null &&dayBox.isChecked()) daysInt = (daysInt * 10) + (i + 1);
         }
-
+        System.out.println(daysInt);
         return daysInt;
     }
 
@@ -129,7 +130,7 @@ public class AddCourseFragment extends Fragment {
 
         //Days + start time + end time
         return days + " " + startHour.toString() + ":" + startPrefix0 + startMinute.toString() +
-                startAMPM + " - " + endHour.toString() + ":" + endPrefix0 + endMinute.toString() +
-                endAMPM;
+                " " + startAMPM + " - " + endHour.toString() + ":" + endPrefix0 +
+                endMinute.toString() + " " + endAMPM;
     }
 }

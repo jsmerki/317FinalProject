@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -109,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
             fragContainerID = R.id.fragment_container_tablet;
         }
 
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        //Stop the notifications intent when in the app, user can see their schedule
+        Intent notificationsIntent = new Intent(this, CourseNotificationService.class);
+        stopService(notificationsIntent);
     }
 
     public boolean isTabletScreen(){
@@ -235,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         eventVals.put(CalendarContract.Events.DTEND, stopMillis);
         eventVals.put(CalendarContract.Events.TITLE, course.className + ": " + assign.assignName);
         eventVals.put(CalendarContract.Events.CALENDAR_ID, myCalID);
-        eventVals.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+        eventVals.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Phoenix");
 
         if(checkSelfPermission(Manifest.permission.WRITE_CALENDAR)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -294,7 +304,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Callback for getting weather data in schedule
     public void getWeatherReport(View v){
-        new WeatherWebRequest().execute();
+        new WeatherWebRequest(this).execute();
+    }
+
+    public void showWeatherDialog(JSONObject weather){
+        WeatherDialog weatherLog = new WeatherDialog(weather);
+        weatherLog.show(getSupportFragmentManager(), "weather");
+
     }
 
     //Save course information to files
@@ -312,7 +328,13 @@ public class MainActivity extends AppCompatActivity {
             coursesOut.writeObject(model.getCourses());
             coursesOut.close();
             coursesOutStream.close();
+
+            Intent notificationsIntent = new Intent(this, CourseNotificationService.class);
+            notificationsIntent.putExtra("COURSES", model.getCourses());
+            startService(notificationsIntent);
         }catch(Exception e){ e.printStackTrace(); }
+
+
 
         super.onStop();
     }
