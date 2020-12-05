@@ -22,9 +22,15 @@ public class ScheduleAssignmentAdapter extends ArrayAdapter<Assignment> {
         Assignment assign = getItem(position);
 
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_assignment_row,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_sched_assign_row,
                     parent, false);
         }
+
+        TextView assignName = (TextView) convertView.findViewById(R.id.sched_assignrow_name);
+        TextView assignCourse = (TextView) convertView.findViewById(R.id.sched_assignrow_course);
+
+        assignName.setText(assign.assignName);
+        assignCourse.setText(assign.getCourse().className);
 
         return convertView;
     }

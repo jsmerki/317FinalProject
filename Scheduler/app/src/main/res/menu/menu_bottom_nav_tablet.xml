@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/courses_page_tablet"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="Courses"/>
+    <item
+        android:id="@+id/grading_page_tablet"
+        android:enabled="true"
+        android:icon="@drawable/grades"
+        android:title="Grading"/>
+    <item
+        android:id="@+id/help_page_tablet"
+        android:enabled="true"
+        android:icon="@drawable/help"
+        android:title="Help"/>
+
+</menu>

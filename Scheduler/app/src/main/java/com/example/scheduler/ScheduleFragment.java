@@ -37,7 +37,8 @@ public class ScheduleFragment extends Fragment {
         final String[] days = {"M", "Tu", "W", "Th", "F"};
 
         int currentDay = new Date().getDay();
-        currentDay = 1;
+        int currentDate = new Date().getDate();
+
         //Inflate layout to fit fragContainer View
         View inflatedView = inflater.inflate(R.layout.fragment_schedule, fragContainer, false);
 
@@ -52,7 +53,7 @@ public class ScheduleFragment extends Fragment {
         for(Course course: courses){
             //Monday-Friday is 1-5
             if(currentDay > 0 && currentDay < 6){
-                if(course.scheduleStr.contains(days[currentDay + 1])) {
+                if(course.scheduleStr.contains(days[currentDay - 1])) {
                     System.out.println(course.className);
                     coursesToday.add(course);
                 }
@@ -67,7 +68,8 @@ public class ScheduleFragment extends Fragment {
 
             //Go through the assignments
             for(Assignment assign: course.allAssignments){
-                if(assign.getDueDate().getDate() == currentDay){
+                if(assign.getDueDate().getDate() == currentDate){
+                    System.out.println(assign.assignName);
                     assignsToday.add(assign);
                 }
             }
@@ -92,6 +94,10 @@ public class ScheduleFragment extends Fragment {
         //Set ListView stuff
         ScheduleCourseAdapter courseAdapter = new ScheduleCourseAdapter(getContext(), coursesToday);
         coursesTodayList.setAdapter(courseAdapter);
+
+        ScheduleAssignmentAdapter assignAdapter = new ScheduleAssignmentAdapter(getContext(),
+                assignsToday);
+        assignsTodayList.setAdapter(assignAdapter);
 
         return inflatedView;
     }

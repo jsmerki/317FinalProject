@@ -13,11 +13,17 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
+import android.hardware.display.DisplayManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +35,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public EditCourseFragment editFrag;
     public GradingFragment gradesFrag;
 
+    int fragContainerID = R.id.fragment_container;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        //Set listener for bottom nav buttons
-        BottomNavigationView navView = findViewById(R.id.navigation);
-        navView.setOnNavigationItemSelectedListener(new MenuNavListener());
 
         File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
         SchedulerViewModel model =
@@ -76,17 +81,55 @@ public class MainActivity extends AppCompatActivity {
         //Set GradingFragments courses list
         gradesFrag = new GradingFragment(this, model.getCourses());
 
-        FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
-        coursesTransaction.add(R.id.fragment_container, coursesFrag);
-        //coursesTransaction.addToBackStack(null);
-        coursesTransaction.commit();
+        if(!isTabletScreen()) {
+            //Set listener for bottom nav buttons
+            BottomNavigationView navView = findViewById(R.id.navigation);
+            navView.setOnNavigationItemSelectedListener(new MenuNavListener());
+
+            FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
+            coursesTransaction.add(R.id.fragment_container, coursesFrag);
+            //coursesTransaction.addToBackStack(null);
+            coursesTransaction.commit();
+        }
+
+        else{
+            setContentView(R.layout.activity_main_tablet);
+
+            BottomNavigationView navViewTab = findViewById(R.id.navigation_tablet);
+            navViewTab.setOnNavigationItemSelectedListener(new TabletMenuNavListener());
+
+            FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
+            displaySched.add(R.id.schedule_frag_tablet, schedFrag);
+            displaySched.commit();
+
+            FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
+            displayCourses.add(R.id.fragment_container_tablet, coursesFrag);
+            displayCourses.commit();
+
+            fragContainerID = R.id.fragment_container_tablet;
+        }
+
+    }
+
+    public boolean isTabletScreen(){
+        DisplayMetrics screen = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(screen);
+        float widthIn = (float) (screen.widthPixels / screen.xdpi);
+        float heightIn = (float) (screen.heightPixels / screen.xdpi);
+        return widthIn > 5 && heightIn > 5;
     }
 
     public void insertAddCourseFragment(View view){
         addFrag = new AddCourseFragment(this);
 
         FragmentTransaction addCourseTransaction = getSupportFragmentManager().beginTransaction();
-        addCourseTransaction.replace(R.id.fragment_container, addFrag);
+        addCourseTransaction.setCustomAnimations(
+                R.anim.fragment_slide_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out
+        );
+        addCourseTransaction.replace(fragContainerID, addFrag);
         addCourseTransaction.addToBackStack(null);
         addCourseTransaction.commit();
     }
@@ -94,7 +137,13 @@ public class MainActivity extends AppCompatActivity {
     public void returnToCoursesFragment(){
         FragmentTransaction removeAddCourseTransaction =
                 getSupportFragmentManager().beginTransaction();
-        removeAddCourseTransaction.replace(R.id.fragment_container, coursesFrag);
+        removeAddCourseTransaction.setCustomAnimations(
+                R.anim.fragment_slide_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out
+        );
+        removeAddCourseTransaction.replace(fragContainerID, coursesFrag);
         //removeAddCourseTransaction.addToBackStack(null);
         removeAddCourseTransaction.commit();
     }
@@ -103,7 +152,13 @@ public class MainActivity extends AppCompatActivity {
         editFrag = new EditCourseFragment(this, editCourse);
 
         FragmentTransaction editCourseTransaction = getSupportFragmentManager().beginTransaction();
-        editCourseTransaction.replace(R.id.fragment_container, editFrag);
+        editCourseTransaction.setCustomAnimations(
+                R.anim.fragment_slide_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out
+        );
+        editCourseTransaction.replace(fragContainerID, editFrag);
         //editCourseTransaction.addToBackStack(null);
         editCourseTransaction.commit();
     }
@@ -111,7 +166,13 @@ public class MainActivity extends AppCompatActivity {
     public void returnToEditCourseFragment(){
         FragmentTransaction removeAddAssignTransaction =
                 getSupportFragmentManager().beginTransaction();
-        removeAddAssignTransaction.replace(R.id.fragment_container, editFrag);
+        removeAddAssignTransaction.setCustomAnimations(
+                R.anim.fragment_slide_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out
+        );
+        removeAddAssignTransaction.replace(fragContainerID, editFrag);
         //removeAddAssignTransaction.addToBackStack(null);
         removeAddAssignTransaction.commit();
     }
@@ -120,7 +181,13 @@ public class MainActivity extends AppCompatActivity {
         assignFrag = new AddAssignmentFragment(this, editFrag.getCourseToEdit());
 
         FragmentTransaction addAssignTransaction = getSupportFragmentManager().beginTransaction();
-        addAssignTransaction.replace(R.id.fragment_container, assignFrag);
+        addAssignTransaction.setCustomAnimations(
+                R.anim.fragment_slide_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_slide_out
+        );
+        addAssignTransaction.replace(fragContainerID, assignFrag);
         addAssignTransaction.commit();
     }
 
@@ -257,21 +324,79 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if(item.getItemId() == R.id.courses_page){
                 FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
-                displayCourses.replace(R.id.fragment_container, coursesFrag);
+                displayCourses.setCustomAnimations(
+                        R.anim.fragment_slide_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_slide_out
+                );
+                displayCourses.replace(fragContainerID, coursesFrag);
                 displayCourses.commit();
 
                 return true;
             }
             else if(item.getItemId() == R.id.schedule_page){
                 FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
-                displaySched.replace(R.id.fragment_container, schedFrag);
+                displaySched.setCustomAnimations(
+                        R.anim.fragment_slide_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_slide_out
+                );
+                displaySched.replace(fragContainerID, schedFrag);
                 displaySched.commit();
 
                 return true;
             }
             else if(item.getItemId() == R.id.grading_page){
                 FragmentTransaction displayGrades = getSupportFragmentManager().beginTransaction();
-                displayGrades.replace(R.id.fragment_container, gradesFrag);
+                displayGrades.setCustomAnimations(
+                        R.anim.fragment_slide_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_slide_out
+                );
+                displayGrades.replace(fragContainerID, gradesFrag);
+                displayGrades.commit();
+
+                return true;
+            }
+            else if(item.getItemId() == R.id.help_page){
+                Toast helpToast = Toast.makeText(getApplicationContext(), "HELPING",
+                        Toast.LENGTH_SHORT);
+                helpToast.show();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public class TabletMenuNavListener implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if(item.getItemId() == R.id.courses_page){
+                FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
+                displayCourses.setCustomAnimations(
+                        R.anim.fragment_slide_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_slide_out
+                );
+                displayCourses.replace(fragContainerID, coursesFrag);
+                displayCourses.commit();
+
+                return true;
+            }
+            else if(item.getItemId() == R.id.grading_page){
+                FragmentTransaction displayGrades = getSupportFragmentManager().beginTransaction();
+                displayGrades.setCustomAnimations(
+                        R.anim.fragment_slide_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_slide_out
+                );
+                displayGrades.replace(fragContainerID, gradesFrag);
                 displayGrades.commit();
 
                 return true;
