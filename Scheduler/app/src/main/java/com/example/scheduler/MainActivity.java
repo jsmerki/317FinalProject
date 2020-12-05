@@ -375,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if(item.getItemId() == R.id.courses_page){
+            System.out.println("Tablet Nav Item Selected");
+            if(item.getItemId() == R.id.courses_page_tablet){
                 FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
                 displayCourses.setCustomAnimations(
                         R.anim.fragment_slide_in,
@@ -388,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             }
-            else if(item.getItemId() == R.id.grading_page){
+            else if(item.getItemId() == R.id.grading_page_tablet){
                 FragmentTransaction displayGrades = getSupportFragmentManager().beginTransaction();
                 displayGrades.setCustomAnimations(
                         R.anim.fragment_slide_in,
@@ -401,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             }
-            else if(item.getItemId() == R.id.help_page){
+            else if(item.getItemId() == R.id.help_page_tablet){
                 Toast helpToast = Toast.makeText(getApplicationContext(), "HELPING",
                         Toast.LENGTH_SHORT);
                 helpToast.show();

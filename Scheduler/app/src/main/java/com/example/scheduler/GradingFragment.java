@@ -85,6 +85,9 @@ public class GradingFragment extends Fragment {
             if(course.gradingCategories.size() == 0){
                 grades.setVisibility(View.GONE);
             }
+            else{
+                grades.setVisibility(View.VISIBLE);
+            }
             gradingAdapter.updateGradeCategories(course.gradingCategories);
             gradingAdapter.notifyDataSetChanged();
         }
