@@ -41,8 +41,8 @@ public class SubmitAssignmentDialog extends DialogFragment {
         //Set Spinner info
         categories = inflatedView.findViewById(R.id.grade_categories_spinner);
         ArrayAdapter<Grading> spinnerAdapter = new ArrayAdapter<Grading>(getActivity(),
-                R.layout.spinner_grading_name, owningCourse.gradingCategories);
-        spinnerAdapter.setDropDownViewResource(R.layout.spinner_grading_name);
+                R.layout.spinner_general_name, owningCourse.gradingCategories);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_general_name);
         categories.setAdapter(spinnerAdapter);
 
         //Set the dialog view from the layout and implement button listeners

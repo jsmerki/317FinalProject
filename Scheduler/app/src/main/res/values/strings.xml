@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Scheduler</string>
+
+    <!--String resources for notifications-->
+    <string name="notification_channel">Upcoming Class Reminders</string>
+    <string name="notification_description">Reminders for upcoming classes in 15 minutes.</string>
+    <string name="notification_title">Upcoming Class Reminder</string>
+    <string name="notification_base">ATTENTION:</string>
 </resources>

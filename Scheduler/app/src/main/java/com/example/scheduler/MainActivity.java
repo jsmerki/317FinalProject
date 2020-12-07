@@ -8,6 +8,10 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -22,6 +26,8 @@ import android.provider.CalendarContract;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,61 +61,85 @@ public class MainActivity extends AppCompatActivity {
 
     int fragContainerID = R.id.fragment_container;
 
+    public MainActivity getMainActivityInstance(){
+        return this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_load);
+        //setContentView(R.layout.activity_main);
 
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
-        SchedulerViewModel model =
+        final File coursesInfo = new File(getFilesDir(), COURSES_FILE_NAME);
+        final SchedulerViewModel model =
                 ViewModelProviders.of(this).get(SchedulerViewModel.class);
 
-        //Read serialized course info
-        if(coursesInfo != null) {
-            System.out.println("File exists");
-            try {
-                FileInputStream coursesInStream = new FileInputStream(coursesInfo);
-                ObjectInputStream coursesIn = new ObjectInputStream(coursesInStream);
-                ArrayList<Course> readCourses = (ArrayList<Course>) coursesIn.readObject();
-                model.setCourses(readCourses);
-            } catch (Exception e) {
-                e.printStackTrace();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Read serialized course info
+                if(coursesInfo != null) {
+                    System.out.println("File exists");
+                    try {
+                        FileInputStream coursesInStream = new FileInputStream(coursesInfo);
+                        ObjectInputStream coursesIn = new ObjectInputStream(coursesInStream);
+                        ArrayList<Course> readCourses = (ArrayList<Course>) coursesIn.readObject();
+                        model.setCourses(readCourses);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }
+        }).start();
 
-        //Set GradingFragments courses list
-        gradesFrag = new GradingFragment(this, model.getCourses());
+        //Run a 1 second loading animation, should be enough to pull courses from background thread
+        //All other setup code runs after animation finishes
+        ImageView loadImage = (ImageView) findViewById(R.id.load_image);
+        ObjectAnimator loadAnim = ObjectAnimator.ofFloat(loadImage, "rotation", 0f, 360f);
+        loadAnim.setDuration(500);
+        loadAnim.setRepeatCount(2);
+        loadAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        loadAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
 
-        if(!isTabletScreen()) {
-            //Set listener for bottom nav buttons
-            BottomNavigationView navView = findViewById(R.id.navigation);
-            navView.setOnNavigationItemSelectedListener(new MenuNavListener());
+                setContentView(R.layout.activity_main);
 
-            FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
-            coursesTransaction.add(R.id.fragment_container, coursesFrag);
-            //coursesTransaction.addToBackStack(null);
-            coursesTransaction.commit();
-        }
+                //Set GradingFragments courses list
+                gradesFrag = new GradingFragment(MainActivity.this, model.getCourses());
 
-        else{
-            setContentView(R.layout.activity_main_tablet);
+                if(!isTabletScreen()) {
+                    //Set listener for bottom nav buttons
+                    BottomNavigationView navView = findViewById(R.id.navigation);
+                    navView.setOnNavigationItemSelectedListener(new MenuNavListener());
 
-            BottomNavigationView navViewTab = findViewById(R.id.navigation_tablet);
-            navViewTab.setOnNavigationItemSelectedListener(new TabletMenuNavListener());
+                    FragmentTransaction coursesTransaction = getSupportFragmentManager().beginTransaction();
+                    coursesTransaction.add(R.id.fragment_container, coursesFrag);
+                    //coursesTransaction.addToBackStack(null);
+                    coursesTransaction.commit();
+                }
 
-            FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
-            displaySched.add(R.id.schedule_frag_tablet, schedFrag);
-            displaySched.commit();
+                else{
+                    setContentView(R.layout.activity_main_tablet);
 
-            FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
-            displayCourses.add(R.id.fragment_container_tablet, coursesFrag);
-            displayCourses.commit();
+                    BottomNavigationView navViewTab = findViewById(R.id.navigation_tablet);
+                    navViewTab.setOnNavigationItemSelectedListener(new TabletMenuNavListener());
 
-            fragContainerID = R.id.fragment_container_tablet;
-        }
+                    FragmentTransaction displaySched = getSupportFragmentManager().beginTransaction();
+                    displaySched.add(R.id.schedule_frag_tablet, schedFrag);
+                    displaySched.commit();
+
+                    FragmentTransaction displayCourses = getSupportFragmentManager().beginTransaction();
+                    displayCourses.add(R.id.fragment_container_tablet, coursesFrag);
+                    displayCourses.commit();
+
+                    fragContainerID = R.id.fragment_container_tablet;
+                }
+            }
+        });
+        loadAnim.start();
 
     }
 
@@ -211,19 +241,25 @@ public class MainActivity extends AppCompatActivity {
         editFrag.assignmentsChanged();
     }
 
-    public void saveInCalendar(View v){
+    public void showReminderDialog(View v){
+        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
+        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
+        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
+
+        Assignment assign = editFrag.getCourseToEdit()
+                .findAssignment(assignName.getText().toString(), assignDescr.getText().toString());
+
+        CalendarReminderDialog dialog = new CalendarReminderDialog(assign);
+        dialog.show(getSupportFragmentManager(), "reminder");
+    }
+
+    public void saveInCalendar(Assignment assign, int reminderMinutes){
 
 
         System.out.println("Getting Calendars");
 
-        LinearLayout assignmentRow = (LinearLayout) v.getParent().getParent().getParent();
-        TextView assignName = (TextView) assignmentRow.findViewById(R.id.assign_title);
-        TextView assignDescr = (TextView) assignmentRow.findViewById(R.id.assign_description);
-        Course course = editFrag.getCourseToEdit();
-        Assignment assign = course.findAssignment(assignName.getText().toString(),
-                assignDescr.getText().toString());
-
         long myCalID = 1;
+        Course course = assign.getCourse();
         Calendar startTime = Calendar.getInstance();
         Calendar stopTime = Calendar.getInstance();
 
@@ -252,6 +288,16 @@ public class MainActivity extends AppCompatActivity {
             Uri eventURI = cr.insert(CalendarContract.Events.CONTENT_URI, eventVals);
             long eventID = Long.parseLong(eventURI.getLastPathSegment());
 
+            //Only add a reminder if user wanted. minutes will be -1 if not
+            if(reminderMinutes > 0) {
+                ContentValues reminderVals = new ContentValues();
+                reminderVals.put(CalendarContract.Reminders.MINUTES, reminderMinutes);
+                reminderVals.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                reminderVals.put(CalendarContract.Reminders.METHOD,
+                        CalendarContract.Reminders.METHOD_ALERT);
+
+                Uri reminderURI = cr.insert(CalendarContract.Reminders.CONTENT_URI, reminderVals);
+            }
             System.out.println("New Event Created! ID: " + eventID);
 
             Toast calWriteToast = Toast.makeText(getApplicationContext(), "New Event Created",

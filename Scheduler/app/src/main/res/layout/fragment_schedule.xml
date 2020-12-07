@@ -58,15 +58,18 @@
         android:id="@+id/schedule_button_weather"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/weather"
+        android:text="Get Weather"
+        android:textColor="@color/textBlack"
+        android:autoSizeTextType="uniform"
+        android:padding="5dp"
         android:onClick="getWeatherReport"
         app:layout_constraintTop_toBottomOf="@id/schedule_assignment_list"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.08"
+        app:layout_constraintWidth_percent="0.30"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.04" />
+        app:layout_constraintHeight_percent="0.05" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
