@@ -50,7 +50,7 @@ public class WeatherDialog extends DialogFragment {
                     .getString("text");
         } catch (Exception e){ e.printStackTrace(); }
 
-        if(conditions.contains("Sunny")) iconId = R.drawable.sun;
+        if(conditions.contains("Sunny") || conditions.contains("Clear")) iconId = R.drawable.sun;
         if(conditions.contains("cloud") || conditions.contains("Cloudy")) iconId = R.drawable.cloud;
         if(conditions.contains("wind")) iconId = R.drawable.wind;
         if(conditions.contains("rain")) iconId = R.drawable.rain;
