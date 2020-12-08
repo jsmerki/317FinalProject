@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The layout for course rows in the schedule fragment has TextViews for the name, time that the
+course occurs (days not included) and the classroom that the course takes place in-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="100dp"

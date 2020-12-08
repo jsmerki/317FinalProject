@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The fragment for editing courses has a Header area to display the course name and professor
+email, a ListView to display ungraded assignments for the course and a FloatingActionButton to
+add new assignments to the course-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

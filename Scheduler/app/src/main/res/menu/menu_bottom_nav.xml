@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Menu layout for the BottomNavigationBar on phones, 4 menu items for viewing courses, viewing the
+schedule, viewing grades and viewing the help page-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item

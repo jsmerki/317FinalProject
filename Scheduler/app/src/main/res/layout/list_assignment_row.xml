@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The layout for the assignment rows in the ListView in EditCourseFragment has TextViews to
+display the assignment name, due date and description and a LinearLayout container for three
+buttons for interacting with assignments and a ConstraintLayout to equally space the buttons-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/assign_row_container"
     android:layout_width="match_parent"

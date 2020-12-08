@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--This dialog layout has headers and EditText to enter the points earned and possible and a
+Spinner to select the grading category the assignment will belong to-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +12,7 @@
         android:layout_height="50dp"
         android:text="Points Earned:"
         android:textSize="20dp"
+        android:textColor="@color/textBlack"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintWidth_default="percent"
@@ -31,6 +34,7 @@
         android:layout_height="50dp"
         android:text="Maximum Points:"
         android:textSize="20dp"
+        android:textColor="@color/textBlack"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/edit_points_earned"
         app:layout_constraintWidth_default="percent"

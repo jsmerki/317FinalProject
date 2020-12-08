@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The schedule fragment has TextView headers to mark the lists of courses and assignments for the
+day, two ListViews for courses and assignments on the day and a button to get the current weather
+from an API web request-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -52,7 +55,7 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.325" />
+        app:layout_constraintHeight_percent="0.3" />
 
     <Button
         android:id="@+id/schedule_button_weather"
@@ -60,16 +63,15 @@
         android:layout_height="0dp"
         android:text="Get Weather"
         android:textColor="@color/textBlack"
-        android:autoSizeTextType="uniform"
         android:padding="5dp"
         android:onClick="getWeatherReport"
         app:layout_constraintTop_toBottomOf="@id/schedule_assignment_list"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.30"
+        app:layout_constraintWidth_percent="0.50"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.05" />
+        app:layout_constraintHeight_percent="0.0725" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

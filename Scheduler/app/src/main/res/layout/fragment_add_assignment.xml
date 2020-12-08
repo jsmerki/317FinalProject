@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The fragment to add assignments represents a form that takes the name of the assignment from an
+EditText, the type from a RadioGroup, the due date from a DatePicker and a description of the
+assignment from another EditText-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

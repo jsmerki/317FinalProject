@@ -1,3 +1,8 @@
+/*
+ * @author: Jacob Merki
+ * @description: This file defines the AddAssignmentFragment which presents a form to the user to
+ * create an assignment with a title, due date, assignment type and description.
+ */
 package com.example.scheduler;
 
 import android.app.Activity;
@@ -18,17 +23,37 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Date;
 
+/*
+ * This class defines the AddAssignmentFragment that displays a form to create a new assignment for
+ * a specific course. Once the assignment is created it is added to the course and the user is
+ * returned to the EditCourseFragment.
+ */
 public class AddAssignmentFragment extends Fragment {
 
+    /*
+     * These attributes are used for keeping track of the activity containing the fragment and the
+     * course that the assignment will be assigned to.
+     */
     public Activity containerActivity;
     public Course owningCourse;
-    public Assignment existingAssignment;
 
+    /*
+     * This method is a constructor for the AddAssignmentFragment that sets the containing activity
+     * and owning course of the assignment.
+     *
+     * This method takes nothing and returns an AddAssignmentFragment.
+     */
     public AddAssignmentFragment(Activity container, Course owner){
         this.containerActivity = container;
         this.owningCourse = owner;
     }
 
+    /*
+     * This method creates the view for the AddAssignmentFragment by inflating the proper layout
+     * and setting the listener for the button that creates the new assignment.
+     *
+     * This method takes a LayoutInflater, ViewGroup and Bundle and returns a View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup fragContainer,
                              Bundle savedInstanceState) {
@@ -45,11 +70,22 @@ public class AddAssignmentFragment extends Fragment {
         return inflatedView;
     }
 
+    /*
+     * This class defines the listener for the button that creates a new assignment by retrieving
+     * the assignment info from the form and adding the assignment to the course.
+     */
     public class AddAssignment implements View.OnClickListener {
 
+        /*
+         * This method pulls all of the data filled out on the form and uses it to construct a new
+         * assignment for the desired course.
+         *
+         * This method takes the View that called it and returns nothing.
+         */
         @Override
         public void onClick(View v) {
-            System.out.println("Adding Assignment");
+
+            //Get the assignment name, type, due date and description and create a new object
             EditText editName = (EditText) getActivity().findViewById(R.id.edit_assign_name);
             String assignName = editName.getText().toString();
 
@@ -66,8 +102,8 @@ public class AddAssignmentFragment extends Fragment {
             Assignment newAssignment = new Assignment(owningCourse, assignName, chosenType, dueDate,
                     description);
 
+            //Add to the course and return to the EditCourseFragment
             owningCourse.addAssignment(newAssignment);
-            System.out.println("Added Assignment");
 
             ((MainActivity) getActivity()).returnToEditCourseFragment();
         }

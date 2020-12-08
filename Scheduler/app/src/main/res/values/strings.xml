@@ -6,4 +6,37 @@
     <string name="notification_description">Reminders for upcoming classes in 15 minutes.</string>
     <string name="notification_title">Upcoming Class Reminder</string>
     <string name="notification_base">ATTENTION:</string>
+
+    <!--String resources for help page-->
+    <string name="help_header_add_course">Adding a Course</string>
+    <string name="help_instructions_add_course">
+        Click the "+" button in the main courses menu to bring up the form to add course information.
+        Fill out all desired information and confirm with the button at the bottom of the form.
+    </string>
+    <string name="help_header_assignments">Adding and Working with Assignments</string>
+    <string name="help_instructions_add_assignments">
+        To enter the assignments hub, tap on a course listing in the main courses menu. Once in the
+        assignments hub click on the "+" button and fill out the form to add your assignment, just
+        like a course. A new listing will be made with three buttons to interact with the assignment.
+    </string>
+    <string name="help_instructions_delete">
+        **To delete an assignment from a course, tap the trash can icon which will immediately remove
+        it from the course.
+    </string>
+    <string name="help_instructions_calendar">
+        **To add a reminder for an assignment to your calendar, tap the calendar. Fill out the dialog
+        or choose not to add a reminder to the calendar event. NOTE: Make sure calendar permissions
+        are granted in your settings. Also, Google calendars do not currently function.
+    </string>
+    <string name="help_instructions_submit">
+        **To submit a graded assignment, tap the checkmark icon and fill out the dialog with the
+        points earned, points possible, and the grading category that the assignment belongs to.
+        NOTE: Make sure to create grading categories for assignments to be submitted to.
+    </string>
+    <string name="help_header_grading">Grading for Courses</string>
+    <!--For some reason I was getting weird indents if I didn't expand this resource the way I did-->
+    <string name="help_instructions_grading">
+        Navigate to the grading menu and use the "+" button to add a grading category for the
+        selected course (courses can be selected with the spinner at the top of the view"). Fill out the dialog with the name and percent weight of the category, and now assignments can be submitted to that grading category. Every time an assignment is submitted the score for a grading category will be recalculated.
+    </string>
 </resources>

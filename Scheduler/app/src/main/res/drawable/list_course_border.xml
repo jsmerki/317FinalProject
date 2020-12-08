@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--This xml drawable defines a rectangle with a white background, black border, slight padding
+and rounded corners-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid android:color="@color/textWhite"/>

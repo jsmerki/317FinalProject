@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Menu layout for the BottomNavigationBar on tablets, 3 menu items for viewing courses, viewing
+grades and viewing the help page-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
@@ -13,12 +15,6 @@
         android:title="Grading"/>
     <item
         android:id="@+id/help_page_tablet"
-        android:enabled="true"
-        android:icon="@drawable/help"
-        android:title="Help"/>
-
-    <item
-        android:id="@+id/extra_tablet"
         android:enabled="true"
         android:icon="@drawable/help"
         android:title="Help"/>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--This dialog layout has an EditText for the name of the grading category, a SeekBar to adjust how
+much percent the category is worth and a TextView to visualize the current percent of the bar-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

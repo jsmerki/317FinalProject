@@ -95,9 +95,17 @@ public class GradingFragment extends Fragment {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            //NOTHING NEEDED
+            int courseIndex = parent.getSelectedItemPosition();
+            Course course = coursesList.get(courseIndex);
+            if(course.gradingCategories.size() == 0){
+                grades.setVisibility(View.GONE);
+            }
+            else{
+                grades.setVisibility(View.VISIBLE);
+            }
+            gradingAdapter.updateGradeCategories(course.gradingCategories);
+            gradingAdapter.notifyDataSetChanged();
         }
-
 
     }
 }
