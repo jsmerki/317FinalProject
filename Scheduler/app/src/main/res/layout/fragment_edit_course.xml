@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--The fragment for editing courses has a Header area to display the course name and professor
+email, a ListView to display ungraded assignments for the course and a FloatingActionButton to
+add new assignments to the course-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,12 +56,15 @@
 
     <ListView
         android:id="@+id/list_assignments"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/course_header"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.6"/>
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.9"/>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

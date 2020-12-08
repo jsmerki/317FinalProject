@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This layout has only ann image for the icon that will be animated for a loading screen while
+course resources are loaded-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tintRed"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/load_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/load0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

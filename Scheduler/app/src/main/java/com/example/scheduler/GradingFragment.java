@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -64,7 +66,7 @@ public class GradingFragment extends Fragment {
     }
 
     public void addGradingInFragment(Grading grade){
-        Spinner courseSpinner = getActivity().findViewById(R.id.course_spinner);
+        Spinner courseSpinner = (Spinner) getActivity().findViewById(R.id.course_spinner);
         int courseIndex = courseSpinner.getSelectedItemPosition();
         Course course = coursesList.get(courseIndex);
         course.addGrading(grade);
@@ -75,7 +77,6 @@ public class GradingFragment extends Fragment {
         gradeToast.show();
         grades.setVisibility(View.VISIBLE);
     }
-
     public class ViewCourseGrading implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -85,15 +86,26 @@ public class GradingFragment extends Fragment {
             if(course.gradingCategories.size() == 0){
                 grades.setVisibility(View.GONE);
             }
+            else{
+                grades.setVisibility(View.VISIBLE);
+            }
             gradingAdapter.updateGradeCategories(course.gradingCategories);
             gradingAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            //NOTHING NEEDED
+            int courseIndex = parent.getSelectedItemPosition();
+            Course course = coursesList.get(courseIndex);
+            if(course.gradingCategories.size() == 0){
+                grades.setVisibility(View.GONE);
+            }
+            else{
+                grades.setVisibility(View.VISIBLE);
+            }
+            gradingAdapter.updateGradeCategories(course.gradingCategories);
+            gradingAdapter.notifyDataSetChanged();
         }
-
 
     }
 }

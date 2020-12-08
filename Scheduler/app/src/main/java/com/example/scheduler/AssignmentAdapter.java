@@ -1,3 +1,8 @@
+/*
+ * @author: Jacob Merki
+ * @description: This file defines the AssignmentAdapter class that extends the ArrayAdapter class
+ * in order to display the list of assignments when a course is viewed in the EditCourseFragment.
+ */
 package com.example.scheduler;
 
 import android.content.Context;
@@ -14,16 +19,32 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+/*
+ * This class defines the way in which assignments are viewed in the ListView by displaying their
+ * name, due date and description, as well as a couple of buttons that are defined in the layout
+ * file.
+ */
 public class AssignmentAdapter extends ArrayAdapter<Assignment> {
 
-    public Context context;
-
+    /*
+     * This constructor calls the super constructor of the ArrayAdapter class by passing it the
+     * array of assignments and the context of the app.
+     *
+     * This method takes Context, ArrayList and returns an AssignmentAdapter.
+     */
     public AssignmentAdapter(Context c, ArrayList<Assignment> assignments){
         super(c, 0, assignments);
     }
 
+    /*
+     * This method constructs the view for individual assignments in the list by setting the text
+     * to be displayed for each of the views.
+     *
+     * This method takes int, View and ViewGroup and returns a View.
+     */
     public View getView(int position, View convertView, ViewGroup parent){
 
+        //Get the assignment and inflate the view if necessary
         Assignment assign = getItem(position);
 
         if(convertView == null){
@@ -31,6 +52,7 @@ public class AssignmentAdapter extends ArrayAdapter<Assignment> {
                     parent, false);
         }
 
+        //Get all TextViews and set their text
         TextView assignName = (TextView) convertView.findViewById(R.id.assign_title);
         TextView assignDue = (TextView) convertView.findViewById(R.id.assign_due);
         TextView description = (TextView) convertView.findViewById(R.id.assign_description);

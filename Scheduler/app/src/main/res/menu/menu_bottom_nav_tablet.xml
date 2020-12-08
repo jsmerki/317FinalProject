@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Menu layout for the BottomNavigationBar on phones, 4 menu items for viewing courses, viewing the
-schedule, viewing grades and viewing the help page-->
+<!--Menu layout for the BottomNavigationBar on tablets, 3 menu items for viewing courses, viewing
+grades and viewing the help page-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/courses_page"
+        android:id="@+id/courses_page_tablet"
         android:enabled="true"
         android:icon="@drawable/home"
         android:title="Courses"/>
     <item
-        android:id="@+id/schedule_page"
-        android:enabled="true"
-        android:icon="@drawable/schedule"
-        android:title="Schedule"/>
-    <item
-        android:id="@+id/grading_page"
+        android:id="@+id/grading_page_tablet"
         android:enabled="true"
         android:icon="@drawable/grades"
         android:title="Grading"/>
     <item
-        android:id="@+id/help_page"
+        android:id="@+id/help_page_tablet"
         android:enabled="true"
         android:icon="@drawable/help"
         android:title="Help"/>
+
 </menu>
