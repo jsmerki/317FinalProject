@@ -67,12 +67,16 @@ public class Course implements Serializable {
             allAssignments.add(newAssignment);
         }
         else{
+            //Need to verify that assignment added so that it isn't added twice if it goes at the
+            //beginning of the list
+            boolean added = false;
             for(int i = 0; i < allAssignments.size(); i++){
                 Assignment temp = allAssignments.get(i);
                 int comparison = newAssignment.getDueDate().compareTo(temp.getDueDate());
                 //New assignment due date is before or the same as current one
                 if(comparison < 0){
                     allAssignments.add(i, newAssignment);
+                    return true;
                 }
             }
             allAssignments.add(newAssignment);

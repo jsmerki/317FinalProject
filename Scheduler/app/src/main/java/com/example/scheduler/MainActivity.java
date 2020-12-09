@@ -373,8 +373,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void saveInCalendar(Assignment assign, int reminderMinutes){
 
-        //IDefault Calendar ID that works for both Android and Google phones
-        long myCalID = 2;
+        //Default Calendar ID that works for both Android and Google phones
+        long myCalID = 3;
         Course course = assign.getCourse();
         Calendar startTime = Calendar.getInstance();
         Calendar stopTime = Calendar.getInstance();

@@ -105,7 +105,7 @@ public class CourseNotificationService extends IntentService {
                     int startHour = -1, startMin = -1;
 
                     //If a course occurs today start looking at times
-                    if(courseDays.contains(Integer.toString(today.getDate()))){
+                    if(courseDays.contains(Integer.toString(today.getDay()))){
                         //Get time information from course schedule string
                         String[] schedInfo = course.scheduleStr.split(" ");
                         String startTime = "";
@@ -159,7 +159,6 @@ public class CourseNotificationService extends IntentService {
 
         }
 
-        this.stopSelf();
     }
 
     /*
